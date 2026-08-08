@@ -111,8 +111,12 @@
     color:var(--orange-2);
     font-weight:600;
   }
+  canvas{max-width:100%;}
+  .chart-box{position:relative;height:260px;}
+  .chart-box canvas{position:absolute;inset:0;width:100% !important;height:100% !important;}
   .gauges{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .gauge-wrap{position:relative;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}
+  .gauge-wrap{position:relative;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;}
+  .gauge-wrap canvas{position:absolute;inset:0;width:100% !important;height:100% !important;}
   .gauge-val{position:absolute;top:52%;font-size:26px;font-weight:700;font-family:'Oswald',sans-serif;}
   .gauge-scale{display:flex;justify-content:space-between;width:100%;font-size:11px;color:var(--text-dim);margin-top:-6px;}
 
@@ -152,7 +156,7 @@
   <div class="grid">
     <div class="panel">
       <h3>Total Produzido por Mês</h3>
-      <canvas id="areaChart" height="90"></canvas>
+      <div class="chart-box"><canvas id="areaChart"></canvas></div>
     </div>
     <div class="panel">
       <h3>Indicadores</h3>
@@ -204,6 +208,8 @@ function makeGauge(ctx, color){
     type:'doughnut',
     data:{ datasets:[{ data:[0,100], backgroundColor:[color,'#26313f'], borderWidth:0 }] },
     options:{
+      responsive:true,
+      maintainAspectRatio:false,
       circumference:180, rotation:-90, cutout:'75%',
       plugins:{ tooltip:{enabled:false}, legend:{display:false} },
       animation:{ duration:500 }
@@ -255,6 +261,8 @@ window.addEventListener('DOMContentLoaded', ()=>{
     type:'line',
     data:{ labels:[], datasets:[{ data:[], borderColor:'#1fb8a6', backgroundColor:gradient, fill:true, tension:.35, pointRadius:3, pointBackgroundColor:'#1fb8a6' }]},
     options:{
+      responsive:true,
+      maintainAspectRatio:false,
       plugins:{legend:{display:false}, tooltip:{callbacks:{label:(c)=>fmtNum(c.parsed.y)+' unidades'}}},
       scales:{
         x:{ ticks:{color:'#8b98a8'}, grid:{color:'#1c2531'} },
