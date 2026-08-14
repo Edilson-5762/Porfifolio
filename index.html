@@ -5,53 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio - Edilson</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,900;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <header class="header">
-        <h1>Meu Portfólio</h1>
-        <p>Conheça meus projetos</p>
+    <header class="hero">
+        <p class="eyebrow">Full Stack Developer | Data Analytics &amp; IA</p>
+        <h1>MEUS PROJETOS</h1>
     </header>
 
     <main class="container">
         <section class="portfolio-container">
 
             <!-- PROJETO 1: Mario Bross -->
-            <div class="projeto">
+            <div class="projeto reveal">
                 <img src="./assets/logo.png" alt="Mario Bross">
+                <span class="tag">Jogo</span>
                 <h3>Mario Bross</h3>
                 <p>Jogo interativo desenvolvido com HTML, CSS e JavaScript</p>
                 <a href="https://projeto-mario-bross-birx.vercel.app/" target="_blank" class="btn">Ver Projeto</a>
             </div>
 
             <!-- PROJETO 2: Conversor de Moedas -->
-            <div class="projeto">
+            <div class="projeto reveal">
                 <img src="./assets/logo.gif" alt="Conversor de Moedas">
+                <span class="tag">Web</span>
                 <h3>Conversor de Moedas</h3>
                 <p>Aplicação para converter valores entre Real, Dólar e Euro</p>
                 <a href="https://conversor-de-moedas-seven-pi.vercel.app/" target="_blank" class="btn">Ver Projeto</a>
             </div>
 
             <!-- PROJETO 3: iPhone 17 -->
-            <div class="projeto">
+            <div class="projeto reveal">
                 <img src="./assets/hero.jpg" alt="iPhone 17">
+                <span class="tag">Web</span>
                 <h3>iPhone 17</h3>
                 <p>Landing page responsiva do iPhone 17</p>
                 <a href="https://iphone-17-vert.vercel.app" target="_blank" class="btn">Ver Projeto</a>
             </div>
 
             <!-- PROJETO 4: Mercado Livre -->
-            <div class="projeto">
+            <div class="projeto reveal">
                 <img src="./assets/mercado-livre.webp" alt="Mercado Livre">
+                <span class="tag">Web</span>
                 <h3>Mercado Livre</h3>
                 <p>Plataforma de e-commerce com produtos e carrinho de compras</p>
                 <a href=" https://mercado-livre-v2.vercel.app" target="_blank" class="btn">Ver Projeto</a>
             </div>
 
             <!-- PROJETO 5: Dashboard de Produção -->
-            <div class="projeto">
+            <div class="projeto reveal">
                 <img src="./assets/dashboard-producao.png" alt="Dashboard de Produção">
+                <span class="tag">Dados &amp; BI</span>
                 <h3>Dashboard de Produção (Power BI → Web)</h3>
                 <p>Painel de indicadores de chão de fábrica com horas produtivas, horas paradas, total produzido,
                     aprovado e rejeitado, e gauges de % produtividade e % qualidade — modelado em Power BI e recriado
@@ -60,8 +68,9 @@
             </div>
 
             <!-- PROJETO 6: Relatório de Vendas -->
-            <div class="projeto">
+            <div class="projeto reveal">
                 <img src="./assets/dashboard-vendas.png" alt="Relatório de Vendas">
+                <span class="tag">Dados &amp; BI</span>
                 <h3>Relatório de Vendas (Power BI → Web)</h3>
                 <p>Análise de vendas com faturamento total, quantidade vendida por marca, evolução mensal por ano e
                     faturamento por continente — modelado em Power BI e recriado como página web interativa, com filtros
@@ -69,7 +78,8 @@
                 <a href="./dashboard-vendas.html" target="_blank" class="btn">Ver Projeto</a>
             </div>
 
-            <div class="project-card">
+            <!-- PROJETO 7: Gerenciador de Estoque -->
+            <div class="project-card reveal">
                 <div class="project-gallery">
 
                     <figure class="gallery-item">
@@ -125,6 +135,7 @@
                 </div>
 
                 <div class="project-content">
+                    <span class="tag-inline">Desktop</span>
                     <h3>Gerenciador de Estoque</h3>
 
                     <p>
@@ -146,16 +157,19 @@
                 </div>
             </div>
 
-            <div class="projeto">
+            <!-- PROJETO 8: Customer Churn Analytics -->
+            <div class="projeto reveal">
                 <img src="https://raw.githubusercontent.com/Edilson-5762/customer-churn-analytics/main/reports/figures/Customer-Churn-Records-Projeto.png" alt="Customer Churn Analytics">
+                <span class="tag">IA &amp; Dados</span>
                 <h3>Customer Churn Analytics</h3>
                 <p>Análise preditiva de evasão de clientes bancários utilizando Python, tratamento de outliers via IQR e cálculo de Information Value (IV).</p>
                 <a href="https://github.com/Edilson-5762/customer-churn-analytics" target="_blank" class="btn">Ver Projeto</a>
             </div>
 
-            <!-- PROJETO 8: CineAchado -->
-            <div class="projeto">
+            <!-- PROJETO 9: CineAchado -->
+            <div class="projeto reveal">
                 <img src="./assets/cine-achado.png" alt="CineAchado">
+                <span class="tag">Web</span>
                 <h3>CineAchado</h3>
                 <p>Um aplicativo de streaming totalmente funcional, pronto para produção. 100% construído com Claude Code.</p>
                 <a href="https://catalogo-filmes-tan.vercel.app" target="_blank" class="btn">Ver Projeto</a>
@@ -165,8 +179,42 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Edilson - Todos os direitos reservados</p>
+        <p>&copy; 2026 DIREITOS AUTORAIS — EDILSON MORAES</p>
     </footer>
+
+    <script>
+        (function () {
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            var hero = document.querySelector('.hero');
+            if (hero && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+                hero.addEventListener('mousemove', function (e) {
+                    var rect = hero.getBoundingClientRect();
+                    var x = ((e.clientX - rect.left) / rect.width) * 100;
+                    var y = ((e.clientY - rect.top) / rect.height) * 100;
+                    hero.style.setProperty('--mx', x + '%');
+                    hero.style.setProperty('--my', y + '%');
+                });
+            }
+
+            var revealEls = document.querySelectorAll('.reveal');
+            if (reduceMotion || !('IntersectionObserver' in window)) {
+                revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+                return;
+            }
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealEls.forEach(function (el) { observer.observe(el); });
+        })();
+    </script>
 </body>
 
 </html>
