@@ -64,9 +64,17 @@
     font-family:'Inter',sans-serif;
     font-size:14px;
     min-width:180px;
+    max-width:100%;
     cursor:pointer;
   }
   select:focus{outline:2px solid var(--blue);}
+  .filters label{min-width:0;}
+  #fProduto{
+    max-width:260px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+  }
 
   .grid{
     display:grid;
@@ -97,15 +105,17 @@
   }
   .panel .body{padding:16px 18px;}
 
-  .kpi-col{display:flex;flex-direction:column;gap:16px;}
+  .kpi-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .kpi{
     background:linear-gradient(135deg,var(--gold-2),var(--gold));
     border-radius:12px;
-    padding:20px;
+    padding:14px 10px;
     text-align:center;
   }
-  .kpi .lab{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#5a4a1f;margin-bottom:8px;}
-  .kpi .val{font-size:28px;font-weight:700;font-family:'Oswald',sans-serif;color:#2b2410;}
+  .kpi.wide{grid-column:1 / -1;}
+  .kpi .lab{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#5a4a1f;margin-bottom:6px;}
+  .kpi .val{font-size:20px;font-weight:700;font-family:'Oswald',sans-serif;color:#2b2410;}
+  .kpi.wide .val{font-size:18px;}
 
   .brand-row{display:flex;align-items:center;gap:10px;margin:8px 0;}
   .brand-row .name{width:150px;font-size:13px;color:var(--text-dim);flex-shrink:0;}
@@ -133,15 +143,27 @@
   <a class="back" href="./index.html">&larr; Voltar ao portfólio</a>
   <header class="hero">
     <h1>Relatório de Vendas</h1>
-    <p class="subtitle">Dados reais de vendas &middot; 203.882 registros &middot; recriado em HTML/JS a partir do modelo Power BI</p>
+    <p class="subtitle" id="subtitlePeriodo">Dados reais de vendas &middot; 203.882 registros &middot; recriado em HTML/JS a partir do modelo Power BI</p>
   </header>
 
   <div class="filters">
     <label>Ano
       <select id="fAno"><option value="Todos">Todos</option></select>
     </label>
+    <label>Mês
+      <select id="fMes"><option value="Todos">Todos</option></select>
+    </label>
+    <label>Produto
+      <select id="fProduto"><option value="Todos">Todos</option></select>
+    </label>
+    <label>Categoria
+      <select id="fCategoria"><option value="Todos">Todas</option></select>
+    </label>
     <label>Marca
       <select id="fMarca"><option value="Todos">Todas</option></select>
+    </label>
+    <label>Localidade
+      <select id="fLocalidade"><option value="Todos">Todas</option></select>
     </label>
   </div>
 
@@ -152,7 +174,11 @@
     </div>
     <div class="kpi-col">
       <div class="kpi"><div class="lab">Faturamento</div><div class="val" id="kFat">-</div></div>
-      <div class="kpi"><div class="lab" id="kProdLab">Produto Mais Vendido</div><div class="val" id="kProd" style="font-size:18px;">-</div></div>
+      <div class="kpi"><div class="lab">Custo</div><div class="val" id="kCusto">-</div></div>
+      <div class="kpi"><div class="lab">Lucro</div><div class="val" id="kLucro">-</div></div>
+      <div class="kpi"><div class="lab">Margem</div><div class="val" id="kMargem">-</div></div>
+      <div class="kpi wide"><div class="lab">Qtd. Vendida</div><div class="val" id="kQtd">-</div></div>
+      <div class="kpi wide"><div class="lab">Produto Mais Vendido</div><div class="val" id="kProd">-</div></div>
     </div>
   </div>
 
@@ -172,81 +198,127 @@
 
 <script src="./assets/vendas-data.js"></script>
 <script>
+// VENDAS_DICT: {produtos, categorias, marcas, localidades, periodo, totalRegistros}
+// VENDAS_ROWS: linhas agregadas por Ano/Mês/Produto/Categoria/Marca/Localidade
+// cada linha = [ano, mes, produtoIdx, categoriaIdx, marcaIdx, localidadeIdx, qtd, faturamento, custo, lucro]
 const MESES = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-const fAno = document.getElementById('fAno');
-const fMarca = document.getElementById('fMarca');
+const COL_ANO=0, COL_MES=1, COL_PROD=2, COL_CAT=3, COL_MARCA=4, COL_LOC=5, COL_QTD=6, COL_FAT=7, COL_CUSTO=8, COL_LUCRO=9;
 
-[...new Set(RAW.map(r=>r.ano))].sort().forEach(a=>{
-  const opt = document.createElement('option'); opt.value=a; opt.textContent=a;
-  fAno.appendChild(opt);
-});
-[...new Set(RAW.map(r=>r.marca))].sort().forEach(m=>{
-  const opt = document.createElement('option'); opt.value=m; opt.textContent=m;
-  fMarca.appendChild(opt);
-});
+const fAno = document.getElementById('fAno');
+const fMes = document.getElementById('fMes');
+const fProduto = document.getElementById('fProduto');
+const fCategoria = document.getElementById('fCategoria');
+const fMarca = document.getElementById('fMarca');
+const fLocalidade = document.getElementById('fLocalidade');
+
+function fillOptions(select, values){
+  values.forEach(v=>{
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = v;
+    select.appendChild(opt);
+  });
+}
+
+const ALL_YM_KEYS = [...new Set(VENDAS_ROWS.map(r=>r[COL_ANO]+'-'+String(r[COL_MES]).padStart(2,'0')))].sort();
+
+fillOptions(fAno, [...new Set(VENDAS_ROWS.map(r=>r[COL_ANO]))].sort());
+for(let m=1;m<=12;m++){
+  const opt = document.createElement('option'); opt.value=m; opt.textContent=MESES[m];
+  fMes.appendChild(opt);
+}
+fillOptions(fProduto, VENDAS_DICT.produtos);
+fillOptions(fCategoria, VENDAS_DICT.categorias);
+fillOptions(fMarca, VENDAS_DICT.marcas);
+fillOptions(fLocalidade, VENDAS_DICT.localidades);
+
+document.getElementById('subtitlePeriodo').textContent =
+  `Dados reais de vendas · ${new Intl.NumberFormat('pt-BR').format(VENDAS_DICT.totalRegistros)} registros · Período: ${VENDAS_DICT.periodo.min} a ${VENDAS_DICT.periodo.max}`;
 
 function fmtMoney(n){ return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',notation:'compact',maximumFractionDigits:2}).format(n); }
 function fmtNum(n){ return new Intl.NumberFormat('pt-BR').format(n); }
+function fmtPct(n){ return new Intl.NumberFormat('pt-BR',{style:'percent',maximumFractionDigits:1}).format(n); }
+function continenteDe(localidade){ const partes = localidade.split(' - '); return partes[partes.length-1]; }
 
 let colChart;
 
+function getFiltered(){
+  const ano = fAno.value, mes = fMes.value, produto = fProduto.value,
+        categoria = fCategoria.value, marca = fMarca.value, localidade = fLocalidade.value;
+  return VENDAS_ROWS.filter(r=>
+    (ano==='Todos' || String(r[COL_ANO])===ano) &&
+    (mes==='Todos' || String(r[COL_MES])===mes) &&
+    (produto==='Todos' || VENDAS_DICT.produtos[r[COL_PROD]]===produto) &&
+    (categoria==='Todos' || VENDAS_DICT.categorias[r[COL_CAT]]===categoria) &&
+    (marca==='Todos' || VENDAS_DICT.marcas[r[COL_MARCA]]===marca) &&
+    (localidade==='Todos' || VENDAS_DICT.localidades[r[COL_LOC]]===localidade)
+  );
+}
+
 function render(){
-  const ano = fAno.value;
-  const marca = fMarca.value;
-  const filtered = RAW.filter(r => (ano==='Todos'||String(r.ano)===ano) && (marca==='Todos'||r.marca===marca));
+  const filtered = getFiltered();
 
-  const faturamentoTotal = filtered.reduce((s,r)=>s+r.fat,0);
-  document.getElementById('kFat').textContent = fmtMoney(faturamentoTotal);
+  let faturamentoTotal=0, custoTotal=0, lucroTotal=0, qtdTotal=0;
+  const qtdPorProduto = new Map();
+  const qtdPorYM = new Map();
+  const qtdPorMarca = new Map();
+  const fatPorContinente = new Map();
 
-  // produto mais vendido: precisamos por produto, mas agregado não tem produto (só marca).
-  // Então usamos o dado global pré-calculado (constante) quando sem filtro, senão indicamos maior marca.
-  if(ano==='Todos' && marca==='Todos'){
-    document.getElementById('kProdLab').textContent = 'Produto Mais Vendido';
-    document.getElementById('kProd').textContent = 'DVD M360 Preto';
-  } else {
-    document.getElementById('kProdLab').textContent = 'Marca em Destaque';
-    const topMarca = filtered.reduce((acc,r)=>{ acc[r.marca]=(acc[r.marca]||0)+r.qtd; return acc; },{});
-    const best = Object.entries(topMarca).sort((a,b)=>b[1]-a[1])[0];
-    document.getElementById('kProd').textContent = best ? best[0] : '-';
-  }
-
-  // Coluna: qtd vendida por ano-mes
-  const byYM = {};
   filtered.forEach(r=>{
-    const key = r.ano + '-' + String(r.mes).padStart(2,'0');
-    byYM[key] = (byYM[key]||0) + r.qtd;
+    const qtd=r[COL_QTD], fat=r[COL_FAT], custo=r[COL_CUSTO], lucro=r[COL_LUCRO];
+    faturamentoTotal += fat;
+    custoTotal += custo;
+    lucroTotal += lucro;
+    qtdTotal += qtd;
+
+    qtdPorProduto.set(r[COL_PROD], (qtdPorProduto.get(r[COL_PROD])||0) + qtd);
+
+    const ymKey = r[COL_ANO] + '-' + String(r[COL_MES]).padStart(2,'0');
+    qtdPorYM.set(ymKey, (qtdPorYM.get(ymKey)||0) + qtd);
+
+    qtdPorMarca.set(r[COL_MARCA], (qtdPorMarca.get(r[COL_MARCA])||0) + qtd);
+
+    const cont = continenteDe(VENDAS_DICT.localidades[r[COL_LOC]]);
+    fatPorContinente.set(cont, (fatPorContinente.get(cont)||0) + fat);
   });
-  const keys = Object.keys(byYM).sort();
-  colChart.data.labels = keys.map(k=>{ const [y,m]=k.split('-'); return MESES[parseInt(m)]+'/'+y.slice(2); });
-  colChart.data.datasets[0].data = keys.map(k=>byYM[k]);
+
+  document.getElementById('kFat').textContent = fmtMoney(faturamentoTotal);
+  document.getElementById('kCusto').textContent = fmtMoney(custoTotal);
+  document.getElementById('kLucro').textContent = fmtMoney(lucroTotal);
+  document.getElementById('kMargem').textContent = faturamentoTotal>0 ? fmtPct(lucroTotal/faturamentoTotal) : '-';
+  document.getElementById('kQtd').textContent = fmtNum(qtdTotal);
+
+  // produto mais vendido: sempre calculado pela coluna Produto, nunca pela marca
+  let bestProdIdx=-1, bestQtd=-1;
+  qtdPorProduto.forEach((qtd,prodIdx)=>{ if(qtd>bestQtd){ bestQtd=qtd; bestProdIdx=prodIdx; } });
+  document.getElementById('kProd').textContent = bestProdIdx>=0 ? VENDAS_DICT.produtos[bestProdIdx] : '-';
+
+  // Coluna: qtd vendida por ano-mes (mantém a linha do tempo completa, preenchendo com 0 os meses sem venda no filtro atual)
+  colChart.data.labels = ALL_YM_KEYS.map(k=>{ const [y,m]=k.split('-'); return MESES[parseInt(m)]+'/'+y.slice(2); });
+  colChart.data.datasets[0].data = ALL_YM_KEYS.map(k=>qtdPorYM.get(k)||0);
   colChart.update();
 
   // Marca: qtd vendida por marca
-  const byMarca = {};
-  filtered.forEach(r=>{ byMarca[r.marca] = (byMarca[r.marca]||0) + r.qtd; });
-  const marcaEntries = Object.entries(byMarca).sort((a,b)=>b[1]-a[1]);
+  const marcaEntries = [...qtdPorMarca.entries()]
+    .map(([idx,qtd])=>[VENDAS_DICT.marcas[idx],qtd])
+    .sort((a,b)=>b[1]-a[1]);
   const maxMarca = marcaEntries.length ? marcaEntries[0][1] : 1;
-  const brandList = document.getElementById('brandList');
-  brandList.innerHTML = marcaEntries.map(([name,qtd])=>`
+  document.getElementById('brandList').innerHTML = marcaEntries.map(([name,qtd])=>`
     <div class="brand-row">
       <div class="name">${name}</div>
       <div class="bar-bg"><div class="bar-fill" style="width:${(qtd/maxMarca*100).toFixed(1)}%"></div></div>
       <div class="amount">${fmtNum(qtd)}</div>
-    </div>`).join('');
+    </div>`).join('') || '<p style="color:var(--text-dim);font-size:13px;">Nenhum resultado para os filtros selecionados.</p>';
 
   // Continente: faturamento por continente
-  const byCont = {};
-  filtered.forEach(r=>{ byCont[r.cont] = (byCont[r.cont]||0) + r.fat; });
-  const contEntries = Object.entries(byCont).sort((a,b)=>b[1]-a[1]);
+  const contEntries = [...fatPorContinente.entries()].sort((a,b)=>b[1]-a[1]);
   const maxCont = contEntries.length ? contEntries[0][1] : 1;
-  const contList = document.getElementById('contList');
-  contList.innerHTML = contEntries.map(([name,fat])=>`
+  document.getElementById('contList').innerHTML = contEntries.map(([name,fat])=>`
     <div class="cont-row">
       <div class="dot"></div>
       <div class="name">${name}</div>
       <div class="bar-bg"><div class="bar-fill" style="width:${(fat/maxCont*100).toFixed(1)}%"></div></div>
       <div class="amount">${fmtMoney(fat)}</div>
-    </div>`).join('');
+    </div>`).join('') || '<p style="color:var(--text-dim);font-size:13px;">Nenhum resultado para os filtros selecionados.</p>';
 }
 
 window.addEventListener('DOMContentLoaded', ()=>{
@@ -264,8 +336,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
-  fAno.addEventListener('change', render);
-  fMarca.addEventListener('change', render);
+  [fAno, fMes, fProduto, fCategoria, fMarca, fLocalidade].forEach(sel=>sel.addEventListener('change', render));
   render();
 });
 </script>
