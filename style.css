@@ -257,6 +257,35 @@ img {
     color: var(--ink);
 }
 
+/* BOTÃO VOLTAR PARA O SITE (cartao-digital) */
+.btn-voltar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: inline-block;
+    padding: 11px 22px;
+    background: #4ade80;
+    color: #17140F;
+    text-decoration: none;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    transition: opacity 0.25s ease;
+}
+
+.btn-voltar:hover {
+    opacity: 0.8;
+}
+
+.btn-voltar:active {
+    background: #16a34a;
+}
+
 /* ============================================
    CARD DE PROJETO COM GALERIA (Gerenciador de Estoque)
    ============================================ */
@@ -375,5 +404,12 @@ footer {
 
     .project-gallery {
         grid-template-columns: 1fr;
+    }
+
+    .btn-voltar {
+        top: 12px;
+        left: 12px;
+        padding: 8px 14px;
+        font-size: 11px;
     }
 }
