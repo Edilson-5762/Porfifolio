@@ -1,0 +1,86 @@
+/* Dashboards (Produção e Vendas) no visual do site: vidro, verde, mesmos efeitos */
+.dash { --text-dim: var(--muted); }
+.dash .dash-filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 0 0 28px; }
+.dash .dash-filters label { display: flex; flex-direction: column; gap: 8px; min-width: 0; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.dash select {
+    font: 500 0.92rem var(--font); color: var(--text); min-width: 180px; max-width: 100%; padding: 11px 14px; cursor: pointer;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-line); border-radius: 12px;
+    transition: border-color 0.25s, background 0.25s;
+}
+.dash select:hover { border-color: rgba(70, 211, 127, 0.5); background: rgba(255, 255, 255, 0.08); }
+.dash select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dash select option { background: #141614; color: var(--text); }
+#fProduto { max-width: 260px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+.dash-kpi, .dash-panel {
+    position: relative;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02));
+    border: 1px solid var(--glass-line); border-radius: 18px;
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 22px 40px -30px rgba(0, 0, 0, 0.95);
+    transition: border-color 0.25s, box-shadow 0.3s, background 0.3s, translate 0.28s cubic-bezier(0.22, 0.7, 0.3, 1), opacity 0.65s var(--ease), transform 0.65s var(--ease);
+}
+.dash-kpi:hover, .dash-panel:hover {
+    translate: 0 -4px; border-color: rgba(70, 211, 127, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 24px 46px -22px rgba(70, 211, 127, 0.38), 0 18px 40px -24px rgba(0, 0, 0, 0.95);
+}
+.dash-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+.dash-kpi { display: flex; align-items: center; gap: 14px; padding: 18px 20px; min-width: 0; }
+.dash-kpi .dash-icon { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; display: grid; place-items: center; font-size: 1.4rem; color: var(--accent-ink); background: linear-gradient(135deg, #7be8a8, var(--accent)); box-shadow: 0 8px 20px -8px rgba(70, 211, 127, 0.6); }
+.dash-kpi .val { font: 800 1.4rem var(--display); letter-spacing: -0.02em; }
+.dash-kpi .lab { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+.dash-grid { display: grid; gap: 16px; }
+.dash-grid.two { grid-template-columns: 1.4fr 1fr; margin-bottom: 16px; }
+.dash-grid.even { grid-template-columns: 1fr 1fr; }
+.dash-panel { padding: 20px 22px 14px; min-width: 0; }
+.dash-panel h3, .dash-panel .head { margin: 0 0 14px; font: 700 0.78rem var(--display); text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+.chart-box { position: relative; height: 260px; }
+.chart-box canvas, .gauge-wrap canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.gauges { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.gauge-wrap { position: relative; height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; overflow: hidden; }
+.gauge-val { position: absolute; top: 52%; font: 800 1.6rem var(--display); }
+.gauge-scale { display: flex; justify-content: space-between; width: 100%; font-size: 0.72rem; color: var(--muted); margin-top: -6px; }
+.gauge-scale span:nth-child(2) { color: var(--text); }
+
+.kpi-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-content: start; }
+.kpi-col .dash-kpi { display: block; text-align: center; padding: 16px 10px; }
+.kpi-col .dash-kpi.wide { grid-column: 1 / -1; }
+.kpi-col .dash-kpi .val { font-size: 1.25rem; overflow-wrap: anywhere; }
+.kpi-col .dash-kpi .lab { margin: 0 0 6px; color: var(--accent); }
+
+.brand-row, .cont-row { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+.brand-row .name, .cont-row .name { width: 140px; flex-shrink: 0; font-size: 0.85rem; color: var(--muted); }
+.brand-row .bar-bg, .cont-row .bar-bg { flex: 1; min-width: 40px; height: 16px; border-radius: 8px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+.brand-row .bar-fill, .cont-row .bar-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #2fa862, var(--accent)); transition: width 0.6s var(--ease); }
+.brand-row .amount, .cont-row .amount { width: 76px; text-align: right; flex-shrink: 0; font-size: 0.78rem; color: var(--muted); }
+.cont-row .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgba(70, 211, 127, 0.7); flex-shrink: 0; }
+.dash-note { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 32px; }
+.dash-note a { color: var(--accent); }
+.dash-note code { font-family: var(--mono); font-size: 0.85em; }
+
+@media (max-width: 900px) {
+    .dash-kpis { grid-template-columns: 1fr 1fr; }
+    .dash-grid.two, .dash-grid.even, .gauges { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .dash-kpis { grid-template-columns: 1fr; }
+    .dash select { min-width: 0; width: 100%; }
+    .dash .dash-filters label { width: 100%; }
+    .brand-row .name, .cont-row .name { width: 92px; font-size: 0.78rem; }
+    .brand-row .amount, .cont-row .amount { width: 62px; }
+    .dash-panel { padding: 16px 14px 10px; }
+}
+
+/* Topo mais baixo nas páginas de dashboard: os dados aparecem sem rolar muito */
+.dash-page .page-hero { min-height: calc(max(42dvh, 320px) - var(--header-h)); }
+@media (max-width: 767px) { .dash-page .page-hero { min-height: 34dvh; } }
+.dash select { min-width: 150px; }
+#fProduto { max-width: 220px; }
+.brand-row .amount, .cont-row .amount { white-space: nowrap; }
+@media (max-width: 480px) {
+    .kpi-col .dash-kpi .val { font-size: 1.05rem; overflow-wrap: normal; }
+    .brand-row .name, .cont-row .name { width: 80px; }
+    .brand-row .amount, .cont-row .amount { width: auto; min-width: 54px; }
+    .brand-row, .cont-row { gap: 8px; }
+}
+.dash-kpi, .dash-panel { background: linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02)), rgba(15, 17, 15, 0.8); }

@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "Phosphor";
+  src:
+    url("./Phosphor.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.ph {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "Phosphor" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ph.ph-chart-bar:before { content: "\e150"; }
+.ph.ph-check-circle:before { content: "\e184"; }
+.ph.ph-envelope-simple:before { content: "\e218"; }
+.ph.ph-github-logo:before { content: "\e576"; }
+.ph.ph-graduation-cap:before { content: "\e62c"; }
+.ph.ph-laptop:before { content: "\e586"; }
+.ph.ph-linkedin-logo:before { content: "\e2ee"; }
+.ph.ph-list:before { content: "\e2f0"; }
+.ph.ph-pause-circle:before { content: "\e3a0"; }
+.ph.ph-robot:before { content: "\e762"; }
+.ph.ph-rocket-launch:before { content: "\e3fe"; }
+.ph.ph-timer:before { content: "\e492"; }
+.ph.ph-whatsapp-logo:before { content: "\e5d0"; }
+.ph.ph-x:before { content: "\e4f6"; }
+.ph.ph-x-circle:before { content: "\e4f8"; }

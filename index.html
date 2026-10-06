@@ -1,240 +1,230 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio - Edilson</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,900;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Projetos - Edilson Ebenezer</title>
+    <link rel="stylesheet" href="assets/fonts/phosphor/style.css">
+    <script>document.documentElement.classList.add('js', 'lines-pending');setTimeout(function () { document.documentElement.classList.remove('lines-pending'); }, 3000);</script>
+    <link rel="preload" href="assets/fonts/plus-jakarta-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/plus-jakarta-sans-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/sora-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/sora-800.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="style.css">
+    <script type="speculationrules">{"prefetch":[{"source":"document","where":{"href_matches":"/*.html"},"eagerness":"moderate"}]}</script>
+    <link rel="icon" href="assets/cartao/logo-aguia-square.png" type="image/png">
 </head>
 
-<body>
-    <a href="https://cartaodigital.developeredilsonebenezer.com.br" class="btn-voltar">&larr; Voltar para o site</a>
-
-    <header class="hero">
-        <p class="eyebrow">Full Stack Developer | Data Analytics &amp; IA</p>
-        <h1>MEUS PROJETOS</h1>
+<body class="has-scene">
+    <div class="scene-bg cover" style="--img: url(assets/cenas/portfolio.webp); --back: url(assets/cenas/portfolio-back.webp); --cut: url(assets/cenas/portfolio-cut.webp); --hh: max(72dvh, 560px)" aria-hidden="true"></div>
+    <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+    <header class="main-header">
+        <nav class="navbar" aria-label="Principal">
+            <a class="logo" href="https://developeredilsonebenezer.com.br" rel="noopener">
+                <img src="assets/cartao/logo-aguia-square.png" alt="Logo Edilson Ebenezer" width="36" height="36">
+                <span>Edilson Ebenezer</span>
+            </a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#projetos" aria-current="page">Projetos<sup class="nav-count">01</sup></a></li>
+                <li><a href="https://developeredilsonebenezer.com.br" rel="noopener">Meu Site<sup class="nav-count">02</sup></a></li>
+            </ul>
+            <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." class="btn-contact" target="_blank" rel="noopener noreferrer">Contato</a>
+            <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+                <i class="ph ph-list"></i>
+            </button>
+        </nav>
     </header>
 
-    <main class="container">
-        <section class="portfolio-container">
-
-            <!-- PROJETO 1: Cartão Digital -->
-            <div class="projeto reveal">
-                <img src="./assets/cartao-digital.png" alt="Cartão Digital">
-                <span class="tag">Web</span>
-                <h3>Cartão Digital</h3>
-                <p>Cartão de visitas digital com minha trajetória, habilidades e canais de contato, para recrutadores e empresas</p>
-                <a href="https://cartaodigital.developeredilsonebenezer.com.br" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 2: Mario Bross -->
-            <div class="projeto reveal">
-                <img src="./assets/logo.png" alt="Mario Bross">
-                <span class="tag">Jogo</span>
-                <h3>Mario Bross</h3>
-                <p>Jogo interativo desenvolvido com HTML, CSS e JavaScript</p>
-                <a href="https://projeto-mario-bross-birx.vercel.app/" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 3: Conversor de Moedas -->
-            <div class="projeto reveal">
-                <img src="./assets/logo.gif" alt="Conversor de Moedas">
-                <span class="tag">Web</span>
-                <h3>Conversor de Moedas</h3>
-                <p>Aplicação para converter valores entre Real, Dólar e Euro</p>
-                <a href="https://conversor-de-moedas-seven-pi.vercel.app/" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 4: iPhone 17 -->
-            <div class="projeto reveal">
-                <img src="./assets/hero.jpg" alt="iPhone 17">
-                <span class="tag">Web</span>
-                <h3>iPhone 17</h3>
-                <p>Landing page responsiva do iPhone 17</p>
-                <a href="https://iphone-17-vert.vercel.app" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 5: Mercado Livre -->
-            <div class="projeto reveal">
-                <img src="./assets/mercado-livre.webp" alt="Mercado Livre">
-                <span class="tag">Web</span>
-                <h3>Mercado Livre</h3>
-                <p>Plataforma de e-commerce com produtos e carrinho de compras</p>
-                <a href="https://mercado-livre-v2.vercel.app" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 6: Dashboard de Produção -->
-            <div class="projeto reveal">
-                <img src="./assets/dashboard-producao.png" alt="Dashboard de Produção">
-                <span class="tag">Dados &amp; BI</span>
-                <h3>Dashboard de Produção (Power BI → Web)</h3>
-                <p>Painel de indicadores de chão de fábrica com horas produtivas, horas paradas, total produzido,
-                    aprovado e rejeitado, e gauges de % produtividade e % qualidade — modelado em Power BI e recriado
-                    como página web interativa, com filtros reais por operador e mês.</p>
-                <a href="./dashboard-producao.html" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 7: Relatório de Vendas -->
-            <div class="projeto reveal">
-                <img src="./assets/dashboard-vendas.png" alt="Relatório de Vendas">
-                <span class="tag">Dados &amp; BI</span>
-                <h3>Relatório de Vendas (Power BI → Web)</h3>
-                <p>Análise de vendas com faturamento total, quantidade vendida por marca, evolução mensal por ano e
-                    faturamento por continente — modelado em Power BI e recriado como página web interativa, com filtros
-                    reais por ano e marca.</p>
-                <a href="./dashboard-vendas.html" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 8: Gerenciador de Estoque -->
-            <div class="project-card reveal">
-                <div class="project-gallery">
-
-                    <figure class="gallery-item">
-                        <img src="./assets/painel_principal.png" alt="Tela principal do Gerenciador de Estoque">
-
-                        <figcaption>
-                            <h4>Painel Principal</h4>
-                            <p>
-                                Cadastro, edição e exclusão de produtos, com busca por nome,
-                                código, descrição ou categoria. Produtos abaixo do estoque
-                                mínimo ficam destacados visualmente.
-                            </p>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="gallery-item">
-                        <img src="./assets/dashboard.png" alt="Dashboard do Gerenciador de Estoque">
-
-                        <figcaption>
-                            <h4>Dashboard Executivo</h4>
-                            <p>
-                                Exibe indicadores em tempo real, como total de produtos,
-                                valor em estoque, itens abaixo do mínimo e produtos zerados.
-                            </p>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="gallery-item">
-                        <img src="./assets/relatorio.png" alt="Relatório de movimentações do estoque">
-
-                        <figcaption>
-                            <h4>Relatório de Movimentações</h4>
-                            <p>
-                                Permite consultar entradas e saídas por período e tipo de
-                                movimentação, exibindo quantidade, data, observação e usuário
-                                responsável.
-                            </p>
-                        </figcaption>
-                    </figure>
-
-                    <figure class="gallery-item">
-                        <img src="./assets/gerenciar_usuario.png" alt="Tela de gerenciamento de usuários">
-
-                        <figcaption>
-                            <h4>Gerenciamento de Usuários</h4>
-                            <p>
-                                Administração dos usuários do sistema, com definição de login,
-                                senha e perfil de acesso.
-                            </p>
-                        </figcaption>
-                    </figure>
-
+    <main id="conteudo">
+        <section class="page-hero has-visual">
+            <div class="container">
+                <div class="monitor-wall"><div class="monitor m-portfolio-2"><img src="assets/prints/portfolio-2.webp" alt="" width="1280" height="720" loading="eager"></div><div class="monitor m-portfolio-0"><img src="assets/prints/portfolio-0.webp" alt="" width="1280" height="720" loading="eager"></div><div class="monitor m-portfolio-1"><img src="assets/prints/portfolio-1.webp" alt="" width="1280" height="720" loading="eager"></div></div>
+                <div class="hero-text">
+                <h1 data-reveal>Meus Projetos</h1>
+                <p data-reveal>Full Stack Developer | Data Analytics &amp; IA. Uma seleção dos meus melhores projetos e trabalhos.</p>
                 </div>
+            </div>
+        </section>
 
-                <div class="project-content">
-                    <span class="tag-inline">Desktop</span>
-                    <h3>Gerenciador de Estoque</h3>
-
-                    <p>
-                        Sistema desktop desenvolvido em Python para controle de produtos,
-                        movimentações, usuários, relatórios e indicadores de estoque.
-                    </p>
-
-                    <div class="project-technologies">
-                        <span>Python</span>
-                        <span>CustomTkinter</span>
-                        <span>SQLite</span>
-                        <span>Matplotlib</span>
+        <section class="section">
+            <div class="container project-list" id="projetos">
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://projeto-mario-bross-birx.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-mario-bross.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Mario Bross</h3>
+                        <p>Jogo interativo desenvolvido com HTML, CSS e JavaScript.</p>
+                        <ul class="chips">
+                            <li>Jogo</li>
+                            <li>HTML5</li>
+                            <li>CSS3</li>
+                            <li>JavaScript</li>
+                        </ul>
                     </div>
+                    <div class="project-links">
+                        <a href="https://projeto-mario-bross-birx.vercel.app/" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://conversor-de-moedas-seven-pi.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-conversor-moedas.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Conversor de Moedas</h3>
+                        <p>Aplicação para converter valores entre Real, Dólar e Euro.</p>
+                        <ul class="chips">
+                            <li>Web</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://conversor-de-moedas-seven-pi.vercel.app/" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://iphone-17-vert.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-iphone-17.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>iPhone 17</h3>
+                        <p>Landing page responsiva do iPhone 17.</p>
+                        <ul class="chips">
+                            <li>Web</li>
+                            <li>Landing page</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://iphone-17-vert.vercel.app/" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://mercado-livre-v2.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-mercado-livre.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Mercado Livre</h3>
+                        <p>Plataforma de e-commerce com produtos e carrinho de compras.</p>
+                        <ul class="chips">
+                            <li>Web</li>
+                            <li>E-commerce</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://mercado-livre-v2.vercel.app/" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="./dashboard-producao.html" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-dash-producao.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Dashboard de Produção</h3>
+                        <p>Painel de indicadores de chão de fábrica com horas produtivas e paradas, total produzido, aprovado e rejeitado, e gauges de produtividade e qualidade. Modelado em Power BI e recriado como página web interativa, com filtros por operador e mês.</p>
+                        <ul class="chips">
+                            <li>Dados & BI</li>
+                            <li>Power BI</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="./dashboard-producao.html" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="./dashboard-vendas.html" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-dash-vendas.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Relatório de Vendas</h3>
+                        <p>Análise de vendas com faturamento total, quantidade por marca, evolução mensal por ano e faturamento por continente. Modelado em Power BI e recriado como página web interativa, com filtros por ano e marca.</p>
+                        <ul class="chips">
+                            <li>Dados & BI</li>
+                            <li>Power BI</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="./dashboard-vendas.html" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://github.com/Edilson-5762/CONTROLE-DE-ESTOQUE" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-estoque.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Gerenciador de Estoque</h3>
+                        <p>Sistema desktop em Python para controle de produtos, movimentações, usuários, relatórios e indicadores de estoque.</p>
+                        <ul class="chips">
+                            <li>Python</li>
+                            <li>CustomTkinter</li>
+                            <li>SQLite</li>
+                            <li>Matplotlib</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Edilson-5762/CONTROLE-DE-ESTOQUE" class="btn primary-btn" target="_blank" rel="noopener">Ver no GitHub</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://github.com/Edilson-5762/customer-churn-analytics" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-churn.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Customer Churn Analytics</h3>
+                        <p>Análise preditiva de evasão de clientes bancários com Python, tratamento de outliers via IQR e cálculo de Information Value (IV).</p>
+                        <ul class="chips">
+                            <li>IA & Dados</li>
+                            <li>Python</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Edilson-5762/customer-churn-analytics" class="btn primary-btn" target="_blank" rel="noopener">Ver no GitHub</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://catalogo-filmes-tan.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-cineachado.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>CineAchado</h3>
+                        <p>Aplicativo de streaming totalmente funcional, pronto para produção, 100% construído com Claude Code.</p>
+                        <ul class="chips">
+                            <li>Web</li>
+                            <li>Claude Code</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://catalogo-filmes-tan.vercel.app/" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+                <article class="project-card" data-reveal>
+                    <a class="project-thumb" href="https://barbershop-vert-beta.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/prints/proj-kings-cut.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></a>
+                    <div class="project-info">
+                        <h3>Kings Cut Barbearia</h3>
+                        <p>Landing page de barbearia premium com agendamento online, galeria de cortes, depoimentos e chatbot de atendimento.</p>
+                        <ul class="chips">
+                            <li>Web</li>
+                            <li>Landing page</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://barbershop-vert-beta.vercel.app/" class="btn primary-btn" target="_blank" rel="noopener">Ver Projeto</a>
+                    </div>
+                </article>
+            </div>
+        </section>
 
-                    <a href="https://github.com/Edilson-5762/CONTROLE-DE-ESTOQUE" target="_blank"
-                        rel="noopener noreferrer" class="project-button">
-                        Ver Projeto
-                    </a>
+        <section class="section">
+            <div class="container">
+                <div class="cta-panel" data-reveal>
+                    <h2>Vamos conversar?</h2>
+                    <p>Gostou de algum projeto? Fale comigo pelo WhatsApp ou conheça o meu site.</p>
+                    <div class="hero-buttons">
+                        <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." target="_blank" rel="noopener noreferrer" class="btn primary-btn">Falar no WhatsApp</a>
+                        <a href="https://developeredilsonebenezer.com.br" target="_blank" rel="noopener noreferrer" class="btn secondary-btn">Meu site</a>
+                    </div>
                 </div>
             </div>
-
-            <!-- PROJETO 9: Customer Churn Analytics -->
-            <div class="projeto reveal">
-                <img src="https://raw.githubusercontent.com/Edilson-5762/customer-churn-analytics/main/reports/figures/Customer-Churn-Records-Projeto.png" alt="Customer Churn Analytics">
-                <span class="tag">IA &amp; Dados</span>
-                <h3>Customer Churn Analytics</h3>
-                <p>Análise preditiva de evasão de clientes bancários utilizando Python, tratamento de outliers via IQR e cálculo de Information Value (IV).</p>
-                <a href="https://github.com/Edilson-5762/customer-churn-analytics" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 10: CineAchado -->
-            <div class="projeto reveal">
-                <img src="./assets/cine-achado.png" alt="CineAchado">
-                <span class="tag">Web</span>
-                <h3>CineAchado</h3>
-                <p>Um aplicativo de streaming totalmente funcional, pronto para produção. 100% construído com Claude Code.</p>
-                <a href="https://catalogo-filmes-tan.vercel.app" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
-            <!-- PROJETO 11: Kings Cut Barbearia -->
-            <div class="projeto reveal">
-                <img src="./assets/barbershop.png" alt="Kings Cut Barbearia">
-                <span class="tag">Web</span>
-                <h3>Kings Cut Barbearia</h3>
-                <p>Landing page de barbearia premium com agendamento online, galeria de cortes, depoimentos e chatbot de atendimento.</p>
-                <a href="https://barbershop-vert-beta.vercel.app" target="_blank" class="btn">Ver Projeto</a>
-            </div>
-
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 DIREITOS AUTORAIS — EDILSON MORAES</p>
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." target="_blank" rel="noopener noreferrer" class="wa-fab" aria-label="Fale comigo no WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
+            </div>
+            <div class="footer-text">
+                <p>&copy; 2026 Edilson Ebenezer &middot; Stack Analytics. Todos os direitos reservados.</p>
+            </div>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/edilson-moraes-047128408" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/Edilson-5762" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
     </footer>
 
-    <script>
-        (function () {
-            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            var hero = document.querySelector('.hero');
-            if (hero && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
-                hero.addEventListener('mousemove', function (e) {
-                    var rect = hero.getBoundingClientRect();
-                    var x = ((e.clientX - rect.left) / rect.width) * 100;
-                    var y = ((e.clientY - rect.top) / rect.height) * 100;
-                    hero.style.setProperty('--mx', x + '%');
-                    hero.style.setProperty('--my', y + '%');
-                });
-            }
-
-            var revealEls = document.querySelectorAll('.reveal');
-            if (reduceMotion || !('IntersectionObserver' in window)) {
-                revealEls.forEach(function (el) { el.classList.add('is-visible'); });
-                return;
-            }
-
-            var observer = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.15 });
-
-            revealEls.forEach(function (el) { observer.observe(el); });
-        })();
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
