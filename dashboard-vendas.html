@@ -42,7 +42,7 @@
             <div class="container">
                 <div class="hero-text">
                 <h1 data-reveal>Relatório de Vendas</h1>
-                <p data-reveal id="subtitle">Dados reais de vendas &middot; 203.882 registros &middot; recriado em HTML/JS a partir do modelo Power BI</p>
+                <p data-reveal id="subtitle">Base de estudo &middot; 203.882 registros &middot; modelo Power BI recriado em HTML/JS</p>
                 </div>
             </div>
         </section>
@@ -133,7 +133,7 @@ fillOptions(fMarca, VENDAS_DICT.marcas);
 fillOptions(fLocalidade, VENDAS_DICT.localidades);
 
 document.getElementById('subtitle').textContent =
-  `Dados reais de vendas · ${new Intl.NumberFormat('pt-BR').format(VENDAS_DICT.totalRegistros)} registros · Período: ${VENDAS_DICT.periodo.min} a ${VENDAS_DICT.periodo.max}`;
+  `Base de estudo · ${new Intl.NumberFormat('pt-BR').format(VENDAS_DICT.totalRegistros)} registros · Período: ${VENDAS_DICT.periodo.min} a ${VENDAS_DICT.periodo.max}`;
 
 function fmtMoney(n){ return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',notation:'compact',maximumFractionDigits:2}).format(n); }
 function fmtNum(n){ return new Intl.NumberFormat('pt-BR').format(n); }
