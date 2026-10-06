@@ -4,7 +4,6 @@ Vitrine dos meus projetos de **desenvolvimento web, dados e IA**, no mesmo visua
 
 - **Portfólio:** https://porfifolio-theta.vercel.app
 - **Site pessoal:** https://developeredilsonebenezer.com.br
-- **Código do site pessoal (decisões, testes, segurança e governança):** https://github.com/Edilson-5762/FREELANCER
 - **Contato:** contato@developeredilsonebenezer.com.br · [WhatsApp](https://api.whatsapp.com/send?phone=5561993998764&text=.) · [LinkedIn](https://www.linkedin.com/in/edilson-moraes-047128408)
 
 ## O que tem aqui
@@ -26,7 +25,7 @@ Vitrine dos meus projetos de **desenvolvimento web, dados e IA**, no mesmo visua
 
 ### Dashboards recriados do Power BI para a web
 
-As duas páginas de dashboard (`dashboard-producao.html` e `dashboard-vendas.html`) recriam em HTML/JavaScript os modelos que montei no Power BI, com **filtros que recalculam os indicadores e gráficos de verdade** no navegador (operador e mês na Produção; ano, mês, produto, categoria, marca e localidade em Vendas). Os dados agregados vêm de `assets/producao-data.js` e `assets/vendas-data.js`, e os arquivos originais estão em `projetos/` para download.
+As duas páginas de dashboard (`dashboard-producao.html` e `dashboard-vendas.html`) recriam em HTML/JavaScript os modelos que montei no Power BI, com **filtros que recalculam os indicadores e gráficos de verdade** no navegador (operador e mês na Produção; ano, mês, produto, categoria, marca e localidade em Vendas). Os dados são de uma **base de estudo** (não de uma empresa), agregados em `assets/producao-data.js` e `assets/vendas-data.js`, e os arquivos originais estão em `projetos/` para download.
 
 ## Tecnologias
 
@@ -35,7 +34,7 @@ HTML5 · CSS3 · JavaScript (sem framework) · Chart.js (apenas nos dashboards) 
 ## Como foi feito (resumo)
 
 - As páginas são **geradas** a partir do repositório do site pessoal (`_scratch/export_portfolio.py`), o que garante o mesmo visual e os mesmos efeitos nos dois lugares.
-- **Desempenho:** sem `backdrop-filter`, animações só onde o olho está, canvas do rastro em meia resolução e fontes/ícones locais. Detalhes e medições no [README do site pessoal](https://github.com/Edilson-5762/FREELANCER).
+- **Desempenho:** sem `backdrop-filter`, animações só onde o olho está, canvas do rastro em meia resolução e fontes/ícones locais. Medido com o profiler do Chrome (CPU limitada 4x): o mouse sobre os cartões foi de cerca de 5 para mais de 50 quadros por segundo.
 - **Acessibilidade:** efeitos de mouse só em dispositivos com mouse e desligados com `prefers-reduced-motion`; navegação por teclado.
 - **Privacidade:** nenhuma requisição a terceiros em tempo de execução, sem cookies e sem rastreadores.
 
