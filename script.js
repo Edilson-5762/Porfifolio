@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cio = new IntersectionObserver((entries) => {
                 entries.forEach((e) => {
                     const el = e.target;
-                    if (!e.isIntersecting) { el._tok = (el._tok || 0) + 1; el.textContent = '0'; el._run = false; return; }
+                    if (!e.isIntersecting) { el._tok = (el._tok || 0) + 1; el.textContent = '0'; el._run = false; const st = el.closest('.stat'); if (st) st.classList.remove('done'); return; }
                     if (el._run || e.intersectionRatio < 0.6) return;
                     el._run = true;
                     const end = Number(el.dataset.count), t0 = performance.now(), tok = ++el._tok;
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (el._tok !== tok) return;
                         const k = Math.min(1, (t - t0) / 1600);
                         el.textContent = String(Math.round(end * (1 - Math.pow(1 - k, 3))));
-                        if (k < 1) requestAnimationFrame(step);
+                        if (k < 1) requestAnimationFrame(step); else { const st = el.closest('.stat'); if (st) st.classList.add('done'); }
                     };
                     requestAnimationFrame(step);
                 });
@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const wrap = (a) => a - Math.PI * 2 * Math.round(a / (Math.PI * 2));
             let yaw = 0.5, pitch = 0.28, vy = 0, vp = 0, tvy = 0, tvp = 0;
-            let ptr = null, gi = 72, R = 200, awake = true, mouseIn = false, spot = null, pinTimer = 0, t0 = performance.now(), visible = false, dragging = false, moved = 0, focus = null, hovered = null, pinned = null, raf = 0, last = 0, inside = false;
+            let dimK = 0, moveT = -1e9, ptr = null, gi = 72, R = 200, awake = true, mouseIn = false, spot = null, pinTimer = 0, t0 = performance.now(), visible = false, dragging = false, moved = 0, focus = null, hovered = null, pinned = null, raf = 0, last = 0, inside = false;
 
             const size = () => {
                 const w = stage.clientWidth;
@@ -466,7 +466,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // só grava o que mudou
                     const tr = `translate(-50%, -50%) translate(${el._sx.toFixed(1)}px, ${el._sy.toFixed(1)}px) scale(${el._s.toFixed(3)})`;
                     if (tr !== el._tr) { el._tr = tr; el.style.transform = tr; }
-                    const op = (0.3 + 0.7 * Math.pow(d, 0.8)).toFixed(2);
+                    // com um ícone em destaque os outros escurecem pela opacidade do próprio <li> (GPU), sem repintar as imagens
+                    const hot = el === hovered || el === pinned || el === spot;
+                    const op = ((0.3 + 0.7 * Math.pow(d, 0.8)) * (hot ? 1 : 1 - 0.45 * dimK)).toFixed(2);
                     if (op !== el._op) { el._op = op; el.style.opacity = op; }
                     const z = Math.round(d * 100);
                     if (z !== el._z) { el._z = z; el.style.zIndex = z; }
@@ -474,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             const frame = (t) => {
                 raf = 0;
-                const dt = Math.min(0.05, ((t - last) / 1000) || 0.016);
+                const dt = Math.min(0.1, ((t - last) / 1000) || 0.016); // teto de 0,1 s: em máquina lenta o giro não perde velocidade
                 last = t;
                 if (focus) {
                     const dy = wrap(focus.yaw - yaw), dp = focus.pitch - pitch;
@@ -482,15 +484,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     vy = vp = 0;
                     if (Math.abs(dy) + Math.abs(dp) < 0.003) focus = null;
                 } else if (!dragging) {
-                    const slow = pinned ? 0 : hovered ? 0.12 : 1;
-                    const k = Math.min(1, dt * (mouseIn ? 3 : 1.2));
-                    vy += ((mouseIn ? tvy : 0.22) * slow - vy) * k;
-                    vp += ((mouseIn ? tvp : 0) * slow - vp) * k;
+                    // o cursor só dirige/freia o globo enquanto se mexe; parado há 1,5 s, volta o giro automático (sem paradas nem disparos)
+                    const steer = mouseIn && t - moveT < 1500;
+                    const slow = pinned ? 0 : hovered && steer ? 0.4 : 1;
+                    const k = Math.min(1, dt * (steer ? 1.8 : mouseIn ? 0.8 : 1.2)); // acelera/freia com suavidade; ao parar o mouse a velocidade volta devagar, sem queda brusca
+                    vy += ((steer ? tvy : 0.45) * slow - vy) * k;
+                    vp += ((steer ? tvp : 0) * slow - vp) * k;
                     yaw += vy * dt; pitch += vp * dt;
                     // sem mouse: a inclinação oscila devagar para todas as ferramentas passarem pelo ponto X
                     if (!mouseIn && !pinned) pitch += (0.75 * Math.sin((t - t0) / 1000 * 0.14) - pitch) * Math.min(1, dt * 0.9);
                     else if (Math.abs(pitch) > 1) pitch += (Math.sign(pitch) - pitch) * Math.min(1, dt * 2);
                 }
+                dimK += ((hovered || pinned || spot ? 1 : 0) - dimK) * Math.min(1, dt * 9);
                 render();
                 hitTest();
                 if (visible && (awake || focus || dragging || Math.abs(vy) + Math.abs(vp) > 0.003)) raf = requestAnimationFrame(frame);
@@ -534,12 +539,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.addEventListener('mouseleave', () => { if (mouseIn) { mouseIn = false; mouseState(); } });
             window.addEventListener('pointermove', (e) => {
                 if (e.pointerType === 'touch') return;
+                moveT = performance.now();
                 const r = cachedRect(stage);
                 const nx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2), ny = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
                 const was = mouseIn;
                 mouseIn = was ? (Math.abs(nx) < 1.12 && Math.abs(ny) < 1.12) : (Math.abs(nx) < 1 && Math.abs(ny) < 1);
                 ptr = mouseIn ? { x: e.clientX - (r.left + r.width / 2), y: e.clientY - (r.top + r.height / 2) } : null;
-                if (mouseIn) { tvy = 0.35 + nx * 1.6; tvp = ny * 0.8; }
+                if (mouseIn) { tvy = Math.max(0.45, 0.35 + nx * 1.6); tvp = ny * 0.8; } // nunca inverte nem fica abaixo do giro automático: o cursor só acelera
                 if (mouseIn !== was) mouseState();
                 hitTest();
                 go();

@@ -1,104 +1,203 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de Vendas - Edilson Ebenezer</title>
-    <link rel="stylesheet" href="assets/fonts/phosphor/style.css">
-    <script>document.documentElement.classList.add('js', 'lines-pending');setTimeout(function () { document.documentElement.classList.remove('lines-pending'); }, 3000);</script>
-    <link rel="preload" href="assets/fonts/plus-jakarta-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/plus-jakarta-sans-600.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/sora-700.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/sora-800.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dash.css">
-    <script type="speculationrules">{"prefetch":[{"source":"document","where":{"href_matches":"/*.html"},"eagerness":"moderate"}]}</script>
-    <link rel="icon" href="assets/cartao/logo-aguia-square.png" type="image/png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Vendas — Edilson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./assets/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f4f5f7;
+    --panel:#ffffff;
+    --header-bar:#12161c;
+    --gold:#e9d9a3;
+    --gold-2:#f3e8c4;
+    --blue:#2f8fe0;
+    --blue-2:#1a6fc4;
+    --text:#181c22;
+    --text-dim:#6b7684;
+    --border:#e3e6ea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding:24px 16px 60px;
+  }
+  a.back{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--text-dim);text-decoration:none;font-size:13px;
+    margin-bottom:18px;
+  }
+  a.back:hover{color:var(--blue-2);}
+  .wrap{max-width:1180px;margin:0 auto;}
+  header.hero{text-align:center;margin-bottom:22px;}
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(26px,5vw,40px);
+    letter-spacing:1px;
+    color:var(--text);
+    margin:0 0 6px;
+  }
+  .subtitle{color:var(--text-dim);font-size:14px;}
+
+  .filters{
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    margin:22px 0 26px;
+  }
+  .filters label{
+    display:flex;flex-direction:column;gap:6px;
+    font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;
+  }
+  select{
+    background:#fff;
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 14px;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    min-width:180px;
+    max-width:100%;
+    cursor:pointer;
+  }
+  select:focus{outline:2px solid var(--blue);}
+  .filters label{min-width:0;}
+  #fProduto{
+    max-width:260px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:16px;
+    margin-bottom:16px;
+  }
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .panel .head{
+    background:var(--header-bar);
+    color:#fff;
+    padding:10px 16px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+  }
+  .panel .body{padding:16px 18px;}
+
+  .kpi-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .kpi{
+    background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    border-radius:12px;
+    padding:14px 10px;
+    text-align:center;
+  }
+  .kpi.wide{grid-column:1 / -1;}
+  .kpi .lab{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#5a4a1f;margin-bottom:6px;}
+  .kpi .val{font-size:20px;font-weight:700;font-family:'Oswald',sans-serif;color:#2b2410;}
+  .kpi.wide .val{font-size:18px;}
+
+  .brand-row{display:flex;align-items:center;gap:10px;margin:8px 0;}
+  .brand-row .name{width:150px;font-size:13px;color:var(--text-dim);flex-shrink:0;}
+  .brand-row .bar-bg{flex:1;background:#eef1f4;border-radius:5px;height:20px;position:relative;}
+  .brand-row .bar-fill{background:linear-gradient(90deg,var(--blue),var(--blue-2));height:100%;border-radius:5px;}
+  .brand-row .amount{width:70px;text-align:right;font-size:12px;color:var(--text-dim);flex-shrink:0;}
+
+  .cont-row{display:flex;align-items:center;gap:12px;margin:10px 0;}
+  .cont-row .dot{width:14px;height:14px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+  .cont-row .name{width:140px;font-size:13px;}
+  .cont-row .bar-bg{flex:1;background:#eef1f4;border-radius:5px;height:14px;}
+  .cont-row .bar-fill{background:var(--blue);height:100%;border-radius:5px;}
+  .cont-row .amount{width:80px;text-align:right;font-size:12px;color:var(--text-dim);}
+
+  footer{text-align:center;color:var(--text-dim);font-size:12px;margin-top:24px;}
+  footer a{color:var(--blue-2);}
+
+  @media(max-width:820px){
+    .grid, .grid2{grid-template-columns:1fr;}
+  }
+</style>
 </head>
+<body>
+<div class="wrap">
+  <a class="back" href="./index.html">&larr; Voltar ao portfólio</a>
+  <header class="hero">
+    <h1>Relatório de Vendas</h1>
+    <p class="subtitle" id="subtitlePeriodo">Base de estudo &middot; 203.882 registros &middot; recriado em HTML/JS a partir do modelo Power BI</p>
+  </header>
 
-<body class="has-scene dash-page">
-    <div class="scene-bg cover" style="--img: url(assets/cenas/portfolio.webp); --back: url(assets/cenas/portfolio-back.webp); --cut: url(assets/cenas/portfolio-cut.webp); --hh: max(42dvh, 320px)" aria-hidden="true"></div>
-    <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
-    <header class="main-header">
-        <nav class="navbar" aria-label="Principal">
-            <a class="logo" href="https://developeredilsonebenezer.com.br" rel="noopener">
-                <img src="assets/cartao/logo-aguia-square.png" alt="Logo Edilson Ebenezer" width="36" height="36">
-                <span>Edilson Ebenezer</span>
-            </a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html#projetos">Projetos<sup class="nav-count">01</sup></a></li>
-                <li><a href="https://developeredilsonebenezer.com.br" rel="noopener">Meu Site<sup class="nav-count">02</sup></a></li>
-            </ul>
-            <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." class="btn-contact" target="_blank" rel="noopener noreferrer">Contato</a>
-            <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
-                <i class="ph ph-list"></i>
-            </button>
-        </nav>
-    </header>
+  <div class="filters">
+    <label>Ano
+      <select id="fAno"><option value="Todos">Todos</option></select>
+    </label>
+    <label>Mês
+      <select id="fMes"><option value="Todos">Todos</option></select>
+    </label>
+    <label>Produto
+      <select id="fProduto"><option value="Todos">Todos</option></select>
+    </label>
+    <label>Categoria
+      <select id="fCategoria"><option value="Todos">Todas</option></select>
+    </label>
+    <label>Marca
+      <select id="fMarca"><option value="Todos">Todas</option></select>
+    </label>
+    <label>Localidade
+      <select id="fLocalidade"><option value="Todos">Todas</option></select>
+    </label>
+  </div>
 
-    <main id="conteudo">
-        <section class="page-hero">
-            <div class="container">
-                <div class="hero-text">
-                <h1 data-reveal>Relatório de Vendas</h1>
-                <p data-reveal id="subtitle">Base de estudo &middot; 203.882 registros &middot; modelo Power BI recriado em HTML/JS</p>
-                </div>
-            </div>
-        </section>
-        <section class="section dash">
-            <div class="container">
-                <div class="dash-filters" data-reveal>
-                    <label>Ano
-                        <select id="fAno"><option value="Todos">Todos</option></select>
-                    </label>
-                    <label>Mês
-                        <select id="fMes"><option value="Todos">Todos</option></select>
-                    </label>
-                    <label>Produto
-                        <select id="fProduto"><option value="Todos">Todos</option></select>
-                    </label>
-                    <label>Categoria
-                        <select id="fCategoria"><option value="Todos">Todas</option></select>
-                    </label>
-                    <label>Marca
-                        <select id="fMarca"><option value="Todos">Todas</option></select>
-                    </label>
-                    <label>Localidade
-                        <select id="fLocalidade"><option value="Todos">Todas</option></select>
-                    </label>
-                </div>
-                <div class="dash-grid two">
-                    <div class="dash-panel" data-reveal>
-                        <div class="head">Qtd. Vendida por Ano e Mês</div>
-                        <div class="chart-box"><canvas id="colChart"></canvas></div>
-                    </div>
-                    <div class="kpi-col">
-                        <div class="dash-kpi" data-reveal><div class="lab">Faturamento</div><div class="val" id="kFat">-</div></div>
-                        <div class="dash-kpi" data-reveal><div class="lab">Custo</div><div class="val" id="kCusto">-</div></div>
-                        <div class="dash-kpi" data-reveal><div class="lab">Lucro</div><div class="val" id="kLucro">-</div></div>
-                        <div class="dash-kpi" data-reveal><div class="lab">Margem</div><div class="val" id="kMargem">-</div></div>
-                        <div class="dash-kpi wide" data-reveal><div class="lab">Qtd. Vendida</div><div class="val" id="kQtd">-</div></div>
-                        <div class="dash-kpi wide" data-reveal><div class="lab">Produto Mais Vendido</div><div class="val" id="kProd">-</div></div>
-                    </div>
-                </div>
-                <div class="dash-grid even">
-                    <div class="dash-panel" data-reveal>
-                        <div class="head">Qtd. Vendida por Marca</div>
-                        <div id="brandList"></div>
-                    </div>
-                    <div class="dash-panel" data-reveal>
-                        <div class="head">Faturamento por Continente</div>
-                        <div id="contList"></div>
-                    </div>
-                </div>
-                <p class="dash-note" data-reveal>Dados extraídos e agregados a partir do arquivo original <code>BaseVendas.pbix</code>. &middot; <a href="./projetos/BaseVendas.pbix" download>Baixar .pbix original</a></p>
-            </div>
-        </section>
-        <script src="./assets/chart.umd.min.js"></script>
-        <script src="./assets/vendas-data.js"></script>
-        <script>
+  <div class="grid">
+    <div class="panel">
+      <div class="head">Qtd. Vendida por Ano e Mês</div>
+      <div class="body"><div style="position:relative;height:260px;"><canvas id="colChart"></canvas></div></div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi"><div class="lab">Faturamento</div><div class="val" id="kFat">-</div></div>
+      <div class="kpi"><div class="lab">Custo</div><div class="val" id="kCusto">-</div></div>
+      <div class="kpi"><div class="lab">Lucro</div><div class="val" id="kLucro">-</div></div>
+      <div class="kpi"><div class="lab">Margem</div><div class="val" id="kMargem">-</div></div>
+      <div class="kpi wide"><div class="lab">Qtd. Vendida</div><div class="val" id="kQtd">-</div></div>
+      <div class="kpi wide"><div class="lab">Produto Mais Vendido</div><div class="val" id="kProd">-</div></div>
+    </div>
+  </div>
 
+  <div class="grid2">
+    <div class="panel">
+      <div class="head">Qtd. Vendida por Marca</div>
+      <div class="body" id="brandList"></div>
+    </div>
+    <div class="panel">
+      <div class="head">Faturamento por Continente</div>
+      <div class="body" id="contList"></div>
+    </div>
+  </div>
+
+  <footer>Dados extraídos e agregados a partir do arquivo original <code>BaseVendas.pbix</code>. &middot; <a href="./projetos/BaseVendas.pbix" download>Baixar .pbix original</a></footer>
+</div>
+
+<script src="./assets/vendas-data.js"></script>
+<script>
 // VENDAS_DICT: {produtos, categorias, marcas, localidades, periodo, totalRegistros}
 // VENDAS_ROWS: linhas agregadas por Ano/Mês/Produto/Categoria/Marca/Localidade
 // cada linha = [ano, mes, produtoIdx, categoriaIdx, marcaIdx, localidadeIdx, qtd, faturamento, custo, lucro]
@@ -132,7 +231,7 @@ fillOptions(fCategoria, VENDAS_DICT.categorias);
 fillOptions(fMarca, VENDAS_DICT.marcas);
 fillOptions(fLocalidade, VENDAS_DICT.localidades);
 
-document.getElementById('subtitle').textContent =
+document.getElementById('subtitlePeriodo').textContent =
   `Base de estudo · ${new Intl.NumberFormat('pt-BR').format(VENDAS_DICT.totalRegistros)} registros · Período: ${VENDAS_DICT.periodo.min} a ${VENDAS_DICT.periodo.max}`;
 
 function fmtMoney(n){ return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',notation:'compact',maximumFractionDigits:2}).format(n); }
@@ -222,19 +321,17 @@ function render(){
     </div>`).join('') || '<p style="color:var(--text-dim);font-size:13px;">Nenhum resultado para os filtros selecionados.</p>';
 }
 
-Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
-Chart.defaults.color = 'rgba(236,237,236,0.62)';
 window.addEventListener('DOMContentLoaded', ()=>{
   colChart = new Chart(document.getElementById('colChart'), {
     type:'bar',
-    data:{ labels:[], datasets:[{ data:[], backgroundColor:'#46d37f', borderRadius:3, maxBarThickness:22 }]},
+    data:{ labels:[], datasets:[{ data:[], backgroundColor:'#2f8fe0', borderRadius:3, maxBarThickness:22 }]},
     options:{
       responsive:true,
       maintainAspectRatio:false,
       plugins:{legend:{display:false}, tooltip:{callbacks:{label:(c)=>fmtNum(c.parsed.y)+' unidades'}}},
       scales:{
-        x:{ ticks:{color:'rgba(236,237,236,0.62)', maxRotation:60, minRotation:60, font:{size:10}}, grid:{display:false} },
-        y:{ ticks:{color:'rgba(236,237,236,0.62)', callback:v=>fmtNum(v)}, grid:{color:'rgba(255,255,255,0.07)'} }
+        x:{ ticks:{color:'#6b7684', maxRotation:60, minRotation:60, font:{size:10}}, grid:{display:false} },
+        y:{ ticks:{color:'#6b7684', callback:v=>fmtNum(v)}, grid:{color:'#eef1f4'} }
       }
     }
   });
@@ -242,26 +339,6 @@ window.addEventListener('DOMContentLoaded', ()=>{
   [fAno, fMes, fProduto, fCategoria, fMarca, fLocalidade].forEach(sel=>sel.addEventListener('change', render));
   render();
 });
-
-        </script>
-    </main>
-
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            <div>
-                <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." target="_blank" rel="noopener noreferrer" class="wa-fab" aria-label="Fale comigo no WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
-            </div>
-            <div class="footer-text">
-                <p>&copy; 2026 Edilson Ebenezer &middot; Stack Analytics. Todos os direitos reservados.</p>
-            </div>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/edilson-moraes-047128408" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://github.com/Edilson-5762" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+</script>
 </body>
-
 </html>

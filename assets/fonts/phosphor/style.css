@@ -47,3 +47,13 @@
 .ph.ph-whatsapp-logo:before { content: "\e5d0"; }
 .ph.ph-x:before { content: "\e4f6"; }
 .ph.ph-x-circle:before { content: "\e4f8"; }
+.ph.ph-device-mobile:before { content: "\e1e0"; }
+.ph.ph-plugs-connected:before { content: "\eb5a"; }
+.ph.ph-database:before { content: "\e1de"; }
+.ph.ph-terminal-window:before { content: "\eae8"; }
+.ph.ph-kanban:before { content: "\eb54"; }
+.ph.ph-puzzle-piece:before { content: "\e596"; }
+.ph.ph-map-pin:before { content: "\e316"; }
+.ph.ph-navigation-arrow:before { content: "\eade"; }
+.ph.ph-code:before { content: "\e1bc"; }
+.ph.ph-certificate:before { content: "\e766"; }

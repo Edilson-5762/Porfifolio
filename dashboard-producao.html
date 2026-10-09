@@ -1,93 +1,189 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Produção - Edilson Ebenezer</title>
-    <link rel="stylesheet" href="assets/fonts/phosphor/style.css">
-    <script>document.documentElement.classList.add('js', 'lines-pending');setTimeout(function () { document.documentElement.classList.remove('lines-pending'); }, 3000);</script>
-    <link rel="preload" href="assets/fonts/plus-jakarta-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/plus-jakarta-sans-600.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/sora-700.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/sora-800.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dash.css">
-    <script type="speculationrules">{"prefetch":[{"source":"document","where":{"href_matches":"/*.html"},"eagerness":"moderate"}]}</script>
-    <link rel="icon" href="assets/cartao/logo-aguia-square.png" type="image/png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Produção — Edilson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./assets/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0e131a;
+    --panel:#161d26;
+    --panel-2:#1c2531;
+    --border:#2a3441;
+    --orange:#f2a03d;
+    --orange-2:#f6c579;
+    --teal:#1fb8a6;
+    --teal-dark:#0d5f57;
+    --green:#4ade80;
+    --text:#eef2f6;
+    --text-dim:#8b98a8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(ellipse at top, #16202b 0%, var(--bg) 55%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding:24px 16px 60px;
+  }
+  a.back{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--text-dim);text-decoration:none;font-size:13px;
+    margin-bottom:18px;
+  }
+  a.back:hover{color:var(--orange-2);}
+  .wrap{max-width:1180px;margin:0 auto;}
+  header.hero{text-align:center;margin-bottom:22px;}
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,5vw,44px);
+    letter-spacing:2px;
+    background:linear-gradient(90deg,var(--orange) 0%,var(--orange-2) 50%,var(--orange) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin:0 0 6px;
+  }
+  .subtitle{color:var(--text-dim);font-size:14px;}
+
+  .filters{
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    margin:22px 0 26px;
+  }
+  .filters label{
+    display:flex;flex-direction:column;gap:6px;
+    font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;
+  }
+  select{
+    background:var(--panel-2);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 14px;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    min-width:200px;
+    cursor:pointer;
+  }
+  select:focus{outline:2px solid var(--teal);}
+
+  .kpis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:18px;
+  }
+  .kpi{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px 18px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .kpi .icon{
+    width:42px;height:42px;border-radius:10px;
+    background:linear-gradient(135deg,var(--orange),#c97a1f);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0;
+  }
+  .kpi .val{font-size:21px;font-weight:700;font-family:'Oswald',sans-serif;}
+  .kpi .lab{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 20px 8px;
+  }
+  .panel h3{
+    margin:0 0 12px;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    color:var(--orange-2);
+    font-weight:600;
+  }
+  canvas{max-width:100%;}
+  .chart-box{position:relative;height:260px;}
+  .chart-box canvas{position:absolute;inset:0;width:100% !important;height:100% !important;}
+  .gauges{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .gauge-wrap{position:relative;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;}
+  .gauge-wrap canvas{position:absolute;inset:0;width:100% !important;height:100% !important;}
+  .gauge-val{position:absolute;top:52%;font-size:26px;font-weight:700;font-family:'Oswald',sans-serif;}
+  .gauge-scale{display:flex;justify-content:space-between;width:100%;font-size:11px;color:var(--text-dim);margin-top:-6px;}
+
+  footer{text-align:center;color:var(--text-dim);font-size:12px;margin-top:36px;}
+  footer a{color:var(--teal);}
+
+  @media(max-width:760px){
+    .kpis{grid-template-columns:1fr 1fr;}
+    .gauges{grid-template-columns:1fr;}
+  }
+</style>
 </head>
+<body>
+<div class="wrap">
+  <a class="back" href="./index.html">&larr; Voltar ao portfólio</a>
+  <header class="hero">
+    <h1>DASHBOARD DE PRODUÇÃO</h1>
+    <p class="subtitle">Base de estudo &middot; 31.616 registros &middot; recriado em HTML/JS a partir do modelo Power BI</p>
+  </header>
 
-<body class="has-scene dash-page">
-    <div class="scene-bg cover" style="--img: url(assets/cenas/portfolio.webp); --back: url(assets/cenas/portfolio-back.webp); --cut: url(assets/cenas/portfolio-cut.webp); --hh: max(42dvh, 320px)" aria-hidden="true"></div>
-    <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
-    <header class="main-header">
-        <nav class="navbar" aria-label="Principal">
-            <a class="logo" href="https://developeredilsonebenezer.com.br" rel="noopener">
-                <img src="assets/cartao/logo-aguia-square.png" alt="Logo Edilson Ebenezer" width="36" height="36">
-                <span>Edilson Ebenezer</span>
-            </a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html#projetos">Projetos<sup class="nav-count">01</sup></a></li>
-                <li><a href="https://developeredilsonebenezer.com.br" rel="noopener">Meu Site<sup class="nav-count">02</sup></a></li>
-            </ul>
-            <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." class="btn-contact" target="_blank" rel="noopener noreferrer">Contato</a>
-            <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
-                <i class="ph ph-list"></i>
-            </button>
-        </nav>
-    </header>
+  <div class="filters">
+    <label>Operador
+      <select id="fOperador"><option value="Todos">Todos</option></select>
+    </label>
+    <label>Mês
+      <select id="fMes"><option value="Todos">Todos</option></select>
+    </label>
+  </div>
 
-    <main id="conteudo">
-        <section class="page-hero">
-            <div class="container">
-                <div class="hero-text">
-                <h1 data-reveal>Dashboard de Produção</h1>
-                <p data-reveal id="subtitle">Base de estudo &middot; 31.616 registros &middot; modelo Power BI recriado em HTML/JS</p>
-                </div>
-            </div>
-        </section>
-        <section class="section dash">
-            <div class="container">
-                <div class="dash-filters" data-reveal>
-                    <label>Operador
-                        <select id="fOperador"><option value="Todos">Todos</option></select>
-                    </label>
-                    <label>Mês
-                        <select id="fMes"><option value="Todos">Todos</option></select>
-                    </label>
-                </div>
-                <div class="dash-kpis">
-                    <div class="dash-kpi" data-reveal><div class="dash-icon"><i class="ph ph-check-circle"></i></div><div><div class="val" id="kAprovado">-</div><div class="lab">Total Aprovado</div></div></div>
-                    <div class="dash-kpi" data-reveal><div class="dash-icon"><i class="ph ph-x-circle"></i></div><div><div class="val" id="kRejeitado">-</div><div class="lab">Total Rejeitado</div></div></div>
-                    <div class="dash-kpi" data-reveal><div class="dash-icon"><i class="ph ph-timer"></i></div><div><div class="val" id="kProdutivas">-</div><div class="lab">Horas Produtivas</div></div></div>
-                    <div class="dash-kpi" data-reveal><div class="dash-icon"><i class="ph ph-pause-circle"></i></div><div><div class="val" id="kParadas">-</div><div class="lab">Horas Paradas</div></div></div>
-                </div>
-                <div class="dash-grid">
-                    <div class="dash-panel" data-reveal>
-                        <h3>Total Produzido por Mês</h3>
-                        <div class="chart-box"><canvas id="areaChart"></canvas></div>
-                    </div>
-                    <div class="dash-panel" data-reveal>
-                        <h3>Indicadores</h3>
-                        <div class="gauges">
-                            <div>
-                                <div class="gauge-wrap"><canvas id="gaugeProd"></canvas><div class="gauge-val" id="gaugeProdVal">-</div></div>
-                                <div class="gauge-scale"><span>0%</span><span>% Produtividade</span><span>100%</span></div>
-                            </div>
-                            <div>
-                                <div class="gauge-wrap"><canvas id="gaugeQual"></canvas><div class="gauge-val" id="gaugeQualVal">-</div></div>
-                                <div class="gauge-scale"><span>0%</span><span>% Qualidade</span><span>100%</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="dash-note" data-reveal>Dados extraídos e agregados a partir do arquivo original <code>BaseProdução.pbix</code>. &middot; <a href="./projetos/BaseProducao.pbix" download>Baixar .pbix original</a></p>
-            </div>
-        </section>
-        <script src="./assets/chart.umd.min.js"></script>
-        <script src="./assets/producao-data.js"></script>
-        <script>
+  <div class="kpis">
+    <div class="kpi"><div class="icon">✅</div><div><div class="val" id="kAprovado">-</div><div class="lab">Total Aprovado</div></div></div>
+    <div class="kpi"><div class="icon">✖</div><div><div class="val" id="kRejeitado">-</div><div class="lab">Total Rejeitado</div></div></div>
+    <div class="kpi"><div class="icon">⏱</div><div><div class="val" id="kProdutivas">-</div><div class="lab">Horas Produtivas</div></div></div>
+    <div class="kpi"><div class="icon">⏸</div><div><div class="val" id="kParadas">-</div><div class="lab">Horas Paradas</div></div></div>
+  </div>
 
+  <div class="grid">
+    <div class="panel">
+      <h3>Total Produzido por Mês</h3>
+      <div class="chart-box"><canvas id="areaChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>Indicadores</h3>
+      <div class="gauges">
+        <div>
+          <div class="gauge-wrap">
+            <canvas id="gaugeProd"></canvas>
+            <div class="gauge-val" id="gaugeProdVal">-</div>
+          </div>
+          <div class="gauge-scale"><span>0%</span><span style="color:var(--text)">% Produtividade</span><span>100%</span></div>
+        </div>
+        <div>
+          <div class="gauge-wrap">
+            <canvas id="gaugeQual"></canvas>
+            <div class="gauge-val" id="gaugeQualVal">-</div>
+          </div>
+          <div class="gauge-scale"><span>0%</span><span style="color:var(--text)">% Qualidade</span><span>100%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Dados extraídos e agregados a partir do arquivo original <code>BaseProdução.pbix</code>. &middot; <a href="./projetos/BaseProducao.pbix" download>Baixar .pbix original</a></footer>
+</div>
+
+<script src="./assets/producao-data.js"></script>
+<script>
 const MESES = ['','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const operadores = [...new Set(RAW.map(r=>r.op))].sort();
 const fOperador = document.getElementById('fOperador');
@@ -110,7 +206,7 @@ let areaChart, gaugeProd, gaugeQual;
 function makeGauge(ctx, color){
   return new Chart(ctx, {
     type:'doughnut',
-    data:{ datasets:[{ data:[0,100], backgroundColor:[color,'rgba(255,255,255,0.09)'], borderWidth:0 }] },
+    data:{ datasets:[{ data:[0,100], backgroundColor:[color,'#26313f'], borderWidth:0 }] },
     options:{
       responsive:true,
       maintainAspectRatio:false,
@@ -155,55 +251,33 @@ function render(){
   areaChart.update();
 }
 
-Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
-Chart.defaults.color = 'rgba(236,237,236,0.62)';
 window.addEventListener('DOMContentLoaded', ()=>{
   const areaCtx = document.getElementById('areaChart');
   const gradient = areaCtx.getContext('2d').createLinearGradient(0,0,0,220);
-  gradient.addColorStop(0,'rgba(70,211,127,0.5)');
-  gradient.addColorStop(1,'rgba(70,211,127,0.02)');
+  gradient.addColorStop(0,'rgba(31,184,166,0.55)');
+  gradient.addColorStop(1,'rgba(31,184,166,0.02)');
 
   areaChart = new Chart(areaCtx, {
     type:'line',
-    data:{ labels:[], datasets:[{ data:[], borderColor:'#46d37f', backgroundColor:gradient, fill:true, tension:.35, pointRadius:3, pointBackgroundColor:'#46d37f' }]},
+    data:{ labels:[], datasets:[{ data:[], borderColor:'#1fb8a6', backgroundColor:gradient, fill:true, tension:.35, pointRadius:3, pointBackgroundColor:'#1fb8a6' }]},
     options:{
       responsive:true,
       maintainAspectRatio:false,
       plugins:{legend:{display:false}, tooltip:{callbacks:{label:(c)=>fmtNum(c.parsed.y)+' unidades'}}},
       scales:{
-        x:{ ticks:{color:'rgba(236,237,236,0.62)'}, grid:{color:'rgba(255,255,255,0.07)'} },
-        y:{ ticks:{color:'rgba(236,237,236,0.62)', callback:v=>fmtNum(v)}, grid:{color:'rgba(255,255,255,0.07)'} }
+        x:{ ticks:{color:'#8b98a8'}, grid:{color:'#1c2531'} },
+        y:{ ticks:{color:'#8b98a8', callback:v=>fmtNum(v)}, grid:{color:'#1c2531'} }
       }
     }
   });
 
-  gaugeProd = makeGauge(document.getElementById('gaugeProd'), '#46d37f');
-  gaugeQual = makeGauge(document.getElementById('gaugeQual'), '#9ff0bf');
+  gaugeProd = makeGauge(document.getElementById('gaugeProd'), '#1fb8a6');
+  gaugeQual = makeGauge(document.getElementById('gaugeQual'), '#4ade80');
 
   fOperador.addEventListener('change', render);
   fMes.addEventListener('change', render);
   render();
 });
-
-        </script>
-    </main>
-
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            <div>
-                <a href="https://api.whatsapp.com/send?phone=5561993998764&text=." target="_blank" rel="noopener noreferrer" class="wa-fab" aria-label="Fale comigo no WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
-            </div>
-            <div class="footer-text">
-                <p>&copy; 2026 Edilson Ebenezer &middot; Stack Analytics. Todos os direitos reservados.</p>
-            </div>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/edilson-moraes-047128408" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://github.com/Edilson-5762" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+</script>
 </body>
-
 </html>
