@@ -252,11 +252,17 @@ p { margin: 0; }
     .skill-tiles { grid-template-columns: repeat(3, 1fr); }
     .skill-groups { grid-template-columns: 1fr; gap: 28px; }
     .footer-grid { grid-template-columns: 1fr; justify-items: start; }
-    .logo span { display: none; }
+    .logo { gap: 8px; font-size: 0.95rem; }
 }
 @media (max-width: 420px) {
     .skill-tiles { grid-template-columns: repeat(2, 1fr); }
     .btn { white-space: normal; }
+    .logo { font-size: 0.85rem; }
+}
+@media (max-width: 340px) {
+    .logo { font-size: 0.74rem; gap: 6px; }
+    .logo img { width: 30px; height: 30px; }
+    .btn-contact { padding: 8px 12px; }
 }
 
 /* ---------- Certificados ---------- */
